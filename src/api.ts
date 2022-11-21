@@ -65,9 +65,9 @@ export function getMovies_upComing() {
 }
 
 export function getMovies_detail(movieId: string) {
-  return fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}`).then(
-    (response) => response.json()
-  );
+  return fetch(
+    `${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}&language=${LANGUAGE}`
+  ).then((response) => response.json());
 }
 //===========================
 interface ITv {
@@ -89,4 +89,32 @@ export interface IGetTvDetail {
   overview: string;
   status: string;
   vote_average: string;
+}
+
+export function getTv_airingToday() {
+  return fetch(
+    `${BASE_PATH}/tv/airing_today?api_key=${API_KEY}&language=${LANGUAGE}`
+  ).then((response) => response.json());
+}
+
+export function getTv_onTheAir() {
+  return fetch(
+    `${BASE_PATH}/tv/on_the_air?api_key=${API_KEY}&language=${LANGUAGE}`
+  ).then((response) => response.json());
+}
+export function getTv_popular() {
+  return fetch(
+    `${BASE_PATH}/tv/popular?api_key=${API_KEY}&language=${LANGUAGE}`
+  ).then((response) => response.json());
+}
+export function getTv_top() {
+  return fetch(
+    `${BASE_PATH}/tv/top_rated?api_key=${API_KEY}&language=${LANGUAGE}`
+  ).then((response) => response.json());
+}
+
+export function getTv_detail(tvId?: string) {
+  return fetch(
+    `${BASE_PATH}/tv/${tvId}?api_key=${API_KEY}&language=${LANGUAGE}`
+  ).then((response) => response.json());
 }

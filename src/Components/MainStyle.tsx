@@ -25,7 +25,7 @@ export const Banner = styled.div<{ bgPhoto: string }>`
 `;
 
 export const Title = styled.h2`
-  width: 200px;
+  /* width: 200px;
   height: 50px;
   position: absolute;
   background-color: transparent;
@@ -35,7 +35,11 @@ export const Title = styled.h2`
   font-weight: 500;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: center; */
+  font-size: 75px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin-bottom: 20px; ;
 `;
 
 export const SubTitle = styled.h3`
@@ -46,7 +50,8 @@ export const SubTitle = styled.h3`
 
 export const Overview = styled.p`
   font-size: 20px;
-  font-family: "Times New Roman", Times, serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 50%;
 `;
 
@@ -128,6 +133,7 @@ export const BigCover = styled.div`
 
 export const BigTitle = styled.h3`
   color: ${(props) => props.theme.white.lighter};
+
   padding: 20px;
   font-size: 46px;
   position: relative;

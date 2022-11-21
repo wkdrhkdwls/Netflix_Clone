@@ -30,8 +30,8 @@ import {
   SubTitle,
   Title,
   Wrapper,
-} from "../Components/HomeStyle";
-import { boxVariants, infoVariants } from "../Components/HomeVariant";
+} from "../Components/MainStyle";
+import { boxVariants, infoVariants } from "../Components/MainVariant";
 import { sliderBtnVariant } from "../Components/RightArrow";
 
 const categorys = {
@@ -145,10 +145,10 @@ function Home() {
       ) : (
         <>
           <Banner
-            bgPhoto={makeImagePath(nowData?.results[0].backdrop_path || "")}
+            bgPhoto={makeImagePath(topData?.results[1].backdrop_path || "")}
           >
-            <Title>{nowData?.results[0].title}</Title>
-            <Overview>{nowData?.results[0].overview}</Overview>
+            <Title>{topData?.results[1].title}</Title>
+            <Overview>{topData?.results[1].overview}</Overview>
           </Banner>
           <Slider>
             <SubTitle>Now Playing Movies</SubTitle>
