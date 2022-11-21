@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { SetterOrUpdater } from "recoil";
 import styled from "styled-components";
-import { INowplayingMoviesResult } from "../api";
+import { IMovieResult } from "../api";
 
 export interface IArrowProp {
   setIndex: SetterOrUpdater<number>;
-  data?: INowplayingMoviesResult;
+  data?: IMovieResult;
   setBack: SetterOrUpdater<boolean>;
   leaving: boolean;
   toggle: () => void;

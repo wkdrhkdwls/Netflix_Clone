@@ -1,235 +1,120 @@
 import { useQuery } from "react-query";
-import styled from "styled-components";
-import { motion, AnimatePresence, useScroll } from "framer-motion";
-import { getMovies_nowPlaying, INowplayingMoviesResult } from "../api";
+import { AnimatePresence, useScroll } from "framer-motion";
+import {
+  getMovies_nowPlaying,
+  getMovies_popular,
+  getMovies_top,
+  getMovies_upComing,
+  IMovieResult,
+} from "../api";
 import { makeImagePath } from "../utils";
 import { useState } from "react";
 import useWindowDimensions from "../useWindowDimensions";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import {
+  Banner,
+  BigCover,
+  BigMovie,
+  BigOverview,
+  BigTitle,
+  Box,
+  Info,
+  LArrowSvg,
+  Loader,
+  offset,
+  Overlay,
+  Overview,
+  RArrowSvg,
+  Row,
+  Slider,
+  SubTitle,
+  Title,
+  Wrapper,
+} from "../Components/HomeStyle";
+import { sliderBtnVariant } from "../Components/RightArrow";
+import { boxVariants, infoVariants } from "../Components/HomeVariant";
 
-const Wrapper = styled.div`
-  background: black;
-  padding-bottom: 200px;
-`;
-
-const Loader = styled.div`
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Banner = styled.div<{ bgPhoto: string }>`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 60px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-    url(${(props) => props.bgPhoto});
-  background-size: cover;
-`;
-
-const Title = styled.h2`
-  font-size: 75px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  margin-bottom: 20px; ;
-`;
-
-const Overview = styled.p`
-  font-size: 20px;
-  font-family: "Times New Roman", Times, serif;
-  width: 50%;
-`;
-
-const Slider = styled.div`
-  position: relative;
-  top: -100px;
-`;
-
-const Row = styled(motion.div)`
-  display: grid;
-  gap: 5px;
-  grid-template-columns: repeat(6, 1fr);
-  position: absolute;
-  width: 100%;
-`;
-
-const Box = styled(motion.div)<{ bgPhoto: string }>`
-  background-color: white;
-  background-image: url(${(props) => props.bgPhoto});
-  background-size: cover;
-  background-position: center center;
-  height: 200px;
-  font-size: 66px;
-  cursor: pointer;
-  &:first-child {
-    transform-origin: center left;
-  }
-  &:last-child {
-    transform-origin: center right;
-  }
-`;
-
-const Info = styled(motion.div)`
-  padding: 10px;
-  background-color: ${(props) => props.theme.black.lighter};
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  h4 {
-    text-align: center;
-    font-size: 18px;
-  }
-`;
-
-const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-`;
-
-const BigMovie = styled(motion.div)`
-  position: absolute;
-  width: 40vw;
-  height: 80vh;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  border-radius: 15px;
-  overflow: hidden;
-  background-color: ${(props) => props.theme.black.lighter};
-`;
-
-const BigCover = styled.div`
-  width: 100%;
-  background-size: cover;
-  background-position: center center;
-  height: 400px;
-`;
-
-const BigTitle = styled.h3`
-  color: ${(props) => props.theme.white.lighter};
-  padding: 20px;
-  font-size: 46px;
-  position: relative;
-  top: -80px;
-`;
-
-const BigOverview = styled.p`
-  padding: 20px;
-  position: relative;
-  top: -80px;
-  color: ${(props) => props.theme.white.lighter};
-`;
-
-const boxVariants = {
-  normal: {
-    scale: 1,
-  },
-  hover: {
-    scale: 1.3,
-    y: -80,
-    transition: {
-      delay: 0.5,
-      duaration: 0.1,
-      type: "tween",
-    },
-  },
+const categorys = {
+  nowPlaying: "nowPlaying",
+  latest: "latest",
+  topRated: "topRated",
+  upComing: "upComing",
 };
-
-const infoVariants = {
-  hover: {
-    opacity: 1,
-    transition: {
-      delay: 0.5,
-      duaration: 0.1,
-      type: "tween",
-    },
-  },
-};
-
-const RArrowSvg = styled(motion.svg)`
-  display: flex;
-  position: absolute;
-  width: 5vw;
-  height: 5vh;
-  top: 210px;
-  right: 0;
-  z-index: 100;
-  cursor: pointer;
-`;
-
-const LArrowSvg = styled(motion.svg)`
-  display: flex;
-  position: relative;
-  width: 5vw;
-  height: 5vh;
-  top: 210px;
-  right: 0;
-  z-index: 100;
-  cursor: pointer;
-`;
-
-const sliderBtnVariant = {
-  left: {
-    x: 0,
-  },
-  leftAction: {
-    x: -10,
-    transition: {
-      duration: 0.7,
-      repeat: Infinity,
-    },
-  },
-  right: {
-    x: 0,
-  },
-  rightAction: {
-    x: 10,
-    transition: {
-      duration: 0.7,
-      repeat: Infinity,
-    },
-  },
-};
-
-const offset = 6; //page 갯수(박스 갯수)
 
 function Home() {
   const history = useHistory();
   const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
   const { scrollY } = useScroll();
   const width = useWindowDimensions();
-  const { data: nowData, isLoading: nowIsLoading } =
-    useQuery<INowplayingMoviesResult>(
-      ["movies", "nowPlaying"],
-      getMovies_nowPlaying
-    );
-  const [index, setIndex] = useState(0);
+  //============영화 API DATA=========
+
+  // Now Playing
+  const { data: nowData, isLoading: nowIsLoading } = useQuery<IMovieResult>(
+    ["movies", categorys.nowPlaying],
+    getMovies_nowPlaying
+  );
+  // latest
+  const { data: popularData, isLoading: popularIsLoading } =
+    useQuery<IMovieResult>(["movies", categorys.latest], getMovies_popular);
+  // top_rate
+  const { data: topData, isLoading: topIsLoading } = useQuery<IMovieResult>(
+    ["movies", categorys.topRated],
+    getMovies_top
+  );
+  // Upcoming
+  const { data: upComingData, isLoading: upComingIsLoading } =
+    useQuery<IMovieResult>(["movies", categorys.upComing], getMovies_upComing);
+
+  //============증가 , 감소==================
+
+  const [nowIndex, setNowIndex] = useState(0);
+  const [latestIndex, setLatestIndex] = useState(0);
+  const [topIndex, setTopIndex] = useState(0);
+  const [upComingIndex, setUpComingIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
-  const increaseBox = () => {
-    if (nowData) {
+  const [back, setBack] = useState(false);
+  const increaseBox = (category: string, data: any) => {
+    if (data) {
       if (leaving) return;
       toggleLeaving();
-      const totalMovies = nowData.results.length - 1;
-      const maxIndex = Math.floor(totalMovies / offset) - 1;
-      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      setBack(false);
+      let totalMovies = data.results.length;
+      let maxIndex = Math.floor(totalMovies / offset) - 1;
+      if (category === categorys.nowPlaying) {
+        totalMovies = totalMovies - 1; // Banner에 보여준 영화를 뺸 나머지 영화의 수
+        setNowIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      } else if (category === categorys.latest) {
+        setLatestIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      } else if (category === categorys.topRated) {
+        setTopIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      } else if (category === categorys.upComing) {
+        setUpComingIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      }
     }
   };
-  const decreaseBox = () => {
-    if (nowData) {
+
+  const decreaseBox = (category: string, data: any) => {
+    if (data) {
       if (leaving) return;
       toggleLeaving();
-      const totalMovies = nowData.results.length - 1;
-      const maxIndex = Math.floor(totalMovies / offset) - 1;
-      setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+      setBack(false);
+      let totalMovies = data.results.length;
+      let maxIndex = Math.floor(totalMovies / offset) - 1;
+      if (category === categorys.nowPlaying) {
+        totalMovies = totalMovies - 1; // Banner에 보여준 영화를 뺸 나머지 영화의 수
+        setNowIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+      } else if (category === categorys.latest) {
+        setLatestIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+      } else if (category === categorys.topRated) {
+        setTopIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+      } else if (category === categorys.upComing) {
+        setUpComingIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+      }
     }
   };
+
+  //=========================================
+
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const onBoxClicked = (movieId: number) => {
     history.push(`./movies/${movieId}`);
@@ -243,23 +128,23 @@ function Home() {
 
   return (
     <Wrapper>
-      {nowIsLoading ? (
+      {nowIsLoading || popularIsLoading || topIsLoading || upComingIsLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
           <Banner
-            onClick={increaseBox}
             bgPhoto={makeImagePath(nowData?.results[0].backdrop_path || "")}
           >
             <Title>{nowData?.results[0].title}</Title>
             <Overview>{nowData?.results[0].overview}</Overview>
           </Banner>
           <Slider>
+            <SubTitle>Now Playing</SubTitle>
             <RArrowSvg
               variants={sliderBtnVariant}
               initial="right"
               whileHover="rightAction"
-              onClick={increaseBox}
+              onClick={() => increaseBox(categorys.nowPlaying, nowData)}
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 226 226"
@@ -286,7 +171,7 @@ function Home() {
               </g>
             </RArrowSvg>
             <LArrowSvg
-              onClick={decreaseBox}
+              onClick={() => decreaseBox(categorys.nowPlaying, nowData)}
               variants={sliderBtnVariant}
               initial="left"
               exit="leftExit"
@@ -316,18 +201,17 @@ function Home() {
                 </g>
               </g>
             </LArrowSvg>
-
             <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
               <Row
                 initial={{ x: width + 10 }}
                 animate={{ x: 0 }}
                 exit={{ x: -width - 10 }}
                 transition={{ type: "tween", duration: 1 }}
-                key={index}
+                key={nowIndex}
               >
                 {nowData?.results
                   .slice(1)
-                  .slice(offset * index, offset * index + offset)
+                  .slice(offset * nowIndex, offset * nowIndex + offset)
                   .map((movie) => (
                     <Box
                       layoutId={movie.id + ""}

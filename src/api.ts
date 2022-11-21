@@ -18,34 +18,32 @@ interface IMovie {
   vote_average: number;
   vote_count: number;
 }
-
-export interface INowplayingMoviesResult {
-  dates: {
-    maximum: string;
-    minimum: string;
-  };
+//===== Now Playing=======================
+export interface IMovieResult {
   page: number;
   results: IMovie[];
   total_pages: number;
   total_results: number;
 }
 
-export interface ITopMoviesResult {
-  page: number;
-  results: IMovie[];
-  total_pages: number;
-  total_results: number;
+interface IGernes {
+  name: string;
 }
 
-export interface IUpComingMoviesResult {
-  dates: {
-    maximum: string;
-    minimum: string;
-  };
-  page: number;
-  results: IMovie[];
-  total_pages: number;
-  total_results: number;
+export interface IMovieDetail {
+  adult: boolean;
+  genres: IGernes[];
+  runtime: number;
+  tagline: string;
+  overview: string;
+  status: string;
+  vote_average: string;
+}
+
+export function getMovies_popular() {
+  return fetch(
+    `${BASE_PATH}//movie/popular?api_key=${API_KEY}&language=${LANGUAGE}`
+  ).then((response) => response.json());
 }
 
 export function getMovies_nowPlaying() {
@@ -64,4 +62,10 @@ export function getMovies_upComing() {
   return fetch(
     `${BASE_PATH}//movie/upcoming?api_key=${API_KEY}&language=${LANGUAGE}`
   ).then((response) => response.json());
+}
+
+export function getMovies_detail(movieId: string) {
+  return fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
 }
