@@ -124,6 +124,18 @@ export const BigMovie = styled(motion.div)`
   background-color: ${(props) => props.theme.black.lighter};
 `;
 
+export const BigTv = styled(motion.div)`
+  position: absolute;
+  width: 40vw;
+  height: 80vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: ${(props) => props.theme.black.lighter};
+`;
+
 export const BigCover = styled.div`
   width: 100%;
   background-size: cover;

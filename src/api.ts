@@ -69,7 +69,7 @@ export function getMovies_detail(movieId: string) {
     `${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}&language=${LANGUAGE}`
   ).then((response) => response.json());
 }
-//===========================
+//==========TV=================
 interface ITv {
   id: number;
   backdrop_path: string;
@@ -118,3 +118,4 @@ export function getTv_detail(tvId?: string) {
     `${BASE_PATH}/tv/${tvId}?api_key=${API_KEY}&language=${LANGUAGE}`
   ).then((response) => response.json());
 }
+//===============Serach====================

@@ -40,7 +40,6 @@ const Item = styled.li`
   position: relative;
   display: flex;
   justify-content: center;
-  flex-direction: column;
   &:hover {
     color: ${(props) => props.theme.white.lighter};
   }
@@ -66,7 +65,7 @@ const Circle = styled(motion.span)`
   background-color: ${(props) => props.theme.red};
 `;
 const Input = styled(motion.input)`
-  transform-origin: right center;
+  transform-origin: right;
   position: absolute;
   right: 0px;
   padding: 5px 10px;
@@ -116,7 +115,9 @@ function Header() {
         scaleX: 0,
       });
     } else {
-      inputAnimation.start({ scaleX: 1 });
+      inputAnimation.start({
+        scaleX: 1,
+      });
     }
     setSearchOpen((prev) => !prev);
   };
@@ -132,15 +133,16 @@ function Header() {
   const history = useHistory();
   const { register, handleSubmit } = useForm<IForm>();
   const onValid = (data: IForm) => {
+    console.log(data);
     history.push(`/search?keyword=${data.keyword}`);
   };
   return (
-    <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
+    <Nav variants={navVariants} initial="top" animate={navAnimation}>
       <Col>
         <Logo
           variants={logoVariants}
+          initial="normal"
           whileHover="active"
-          animate="normal"
           xmlns="http://www.w3.org/2000/svg"
           width="1024"
           height="276.742"
@@ -165,7 +167,7 @@ function Header() {
         <Search onSubmit={handleSubmit(onValid)}>
           <motion.svg
             onClick={toggleSearch}
-            animate={{ x: searchOpen ? -185 : 0 }}
+            animate={{ x: searchOpen ? -210 : 0 }}
             transition={{ type: "linear" }}
             fill="currentColor"
             viewBox="0 0 20 20"
@@ -181,9 +183,9 @@ function Header() {
             {...register("keyword", { required: true, minLength: 2 })}
             animate={inputAnimation}
             initial={{ scaleX: 0 }}
-            transition={{ type: "linear" }}
             placeholder="Search for movie or tv show..."
-          />
+            transition={{ type: "linear" }}
+          ></Input>
         </Search>
       </Col>
     </Nav>

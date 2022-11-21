@@ -14,9 +14,9 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import {
   Banner,
   BigCover,
-  BigMovie,
   BigOverview,
   BigTitle,
+  BigTv,
   Box,
   Info,
   LArrowSvg,
@@ -567,7 +567,7 @@ function Home() {
                   exit={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 />
-                <BigMovie
+                <BigTv
                   style={{ top: scrollY.get() + 100 }}
                   layoutId={bigTvMatch.params.tvId + clickRow}
                 >
@@ -585,7 +585,7 @@ function Home() {
                       <BigOverview>{clickedTv.overview}</BigOverview>
                     </>
                   )}
-                </BigMovie>
+                </BigTv>
               </>
             ) : null}
           </AnimatePresence>
