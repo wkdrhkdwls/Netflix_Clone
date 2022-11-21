@@ -18,7 +18,7 @@ interface IMovie {
   vote_average: number;
   vote_count: number;
 }
-//===== Now Playing=======================
+//===== MOVIE_API=======================
 export interface IMovieResult {
   page: number;
   results: IMovie[];
@@ -68,4 +68,25 @@ export function getMovies_detail(movieId: string) {
   return fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}`).then(
     (response) => response.json()
   );
+}
+//===========================
+interface ITv {
+  id: number;
+  backdrop_path: string;
+  name: string;
+  overview: string;
+}
+
+export interface ITvResult {
+  results: ITv[];
+}
+
+export interface IGetTvDetail {
+  genres: IGernes[];
+  number_of_episodes: boolean;
+  number_of_seasons: number;
+  tagline: string;
+  overview: string;
+  status: string;
+  vote_average: string;
 }

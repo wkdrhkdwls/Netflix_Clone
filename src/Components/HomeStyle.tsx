@@ -52,11 +52,12 @@ export const Overview = styled.p`
 
 export const Slider = styled.div`
   position: relative;
-  margin: 50px 0px 70px 0px;
+  /* margin: 50px 0px 70px 0px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; */
   top: -100px;
+  margin-bottom: 350px;
 `;
 
 export const Row = styled(motion.div)`
