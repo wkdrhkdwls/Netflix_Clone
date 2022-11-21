@@ -46,3 +46,15 @@ export const sliderBtnVariant = {
     },
   },
 };
+
+export const rowVariants = {
+  hidden: (isBack: boolean) => ({
+    x: isBack ? -window.innerWidth : window.innerWidth,
+  }),
+  visible: {
+    x: 0,
+  },
+  exit: (isBack: boolean) => ({
+    x: isBack ? window.innerWidth : -window.innerWidth,
+  }),
+};

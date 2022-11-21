@@ -25,16 +25,23 @@ export const Banner = styled.div<{ bgPhoto: string }>`
 `;
 
 export const Title = styled.h2`
-  font-size: 75px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  margin-bottom: 20px; ;
+  width: 200px;
+  height: 50px;
+  position: absolute;
+  background-color: transparent;
+  top: -50px;
+  left: 40px;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 export const SubTitle = styled.h3`
   font-size: 48px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  margin-bottom: 10px;
 `;
 
 export const Overview = styled.p`
@@ -45,11 +52,16 @@ export const Overview = styled.p`
 
 export const Slider = styled.div`
   position: relative;
+  margin: 50px 0px 70px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   top: -100px;
 `;
 
 export const Row = styled(motion.div)`
   display: grid;
+  padding: 0 2%;
   gap: 5px;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
@@ -62,7 +74,7 @@ export const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-size: cover;
   background-position: center center;
   height: 200px;
-  font-size: 66px;
+  font-size: 64px;
   cursor: pointer;
   &:first-child {
     transform-origin: center left;
@@ -148,6 +160,18 @@ export const LArrowSvg = styled(motion.svg)`
   right: 0;
   z-index: 100;
   cursor: pointer;
+`;
+
+export const Button = styled.div`
+  width: 2%;
+  height: 200px;
+  background-color: transparent;
+  z-index: 99;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
 `;
 
 export const offset = 6; //page 갯수(박스 갯수)
