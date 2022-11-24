@@ -25,17 +25,6 @@ export const Banner = styled.div<{ bgPhoto: string }>`
 `;
 
 export const Title = styled.h2`
-  /* width: 200px;
-  height: 50px;
-  position: absolute;
-  background-color: transparent;
-  top: -50px;
-  left: 40px;
-  text-transform: uppercase;
-  font-weight: 500;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center; */
   font-size: 75px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -159,6 +148,20 @@ export const BigOverview = styled.p`
   color: ${(props) => props.theme.white.lighter};
 `;
 
+export const BigPopular = styled.p`
+  padding: 20px;
+  position: relative;
+  top: -80px;
+  color: ${(props) => props.theme.white.lighter};
+`;
+
+export const BigGerne = styled.p`
+  padding: 20px;
+  position: relative;
+  top: -80px;
+  color: ${(props) => props.theme.white.lighter};
+`;
+
 export const RArrowSvg = styled(motion.svg)`
   display: flex;
   position: absolute;
@@ -193,4 +196,46 @@ export const Button = styled.div`
   opacity: 0.5;
 `;
 
-export const offset = 6; //page 갯수(박스 갯수)
+export const Main = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: -100px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+`;
+
+export const Lists = styled.div`
+  width: 100%;
+  margin: 30px 0px;
+`;
+
+export const List = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 10px;
+  h2 {
+    font-style: normal;
+    font-weight: 400;
+    margin-right: 5px;
+  }
+`;
+
+export const DetailOverview = styled.div`
+  display: flex;
+  margin-top: 30px;
+  /* justify-content: flex-start;
+  align-items: center; */
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+`;
+
+export const offset = 6;

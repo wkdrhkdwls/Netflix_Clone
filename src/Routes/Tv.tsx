@@ -14,7 +14,6 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import {
   Banner,
   BigCover,
-  BigOverview,
   BigTitle,
   BigTv,
   Box,
@@ -30,10 +29,10 @@ import {
   SubTitle,
   Title,
   Wrapper,
-} from "../Components/MainStyle";
-import { boxVariants, infoVariants } from "../Components/MainVariant";
+} from "../Components/Style/MainStyle";
+import { boxVariants, infoVariants } from "../Components/Style/MainVariant";
 import { sliderBtnVariant } from "../Components/RightArrow";
-
+import TvDetail from "../Components/Detail/TvDetail";
 const categorys = {
   airingToday: "airingToday",
   onAir: "onAir",
@@ -582,7 +581,7 @@ function Home() {
                         }}
                       />
                       <BigTitle>{clickedTv.name}</BigTitle>
-                      <BigOverview>{clickedTv.overview}</BigOverview>
+                      <TvDetail />
                     </>
                   )}
                 </BigTv>

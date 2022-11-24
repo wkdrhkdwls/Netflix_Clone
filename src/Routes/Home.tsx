@@ -15,7 +15,6 @@ import {
   Banner,
   BigCover,
   BigMovie,
-  BigOverview,
   BigTitle,
   Box,
   Info,
@@ -30,9 +29,10 @@ import {
   SubTitle,
   Title,
   Wrapper,
-} from "../Components/MainStyle";
-import { boxVariants, infoVariants } from "../Components/MainVariant";
+} from "../Components/Style/MainStyle";
+import { boxVariants, infoVariants } from "../Components/Style/MainVariant";
 import { sliderBtnVariant } from "../Components/RightArrow";
+import MovieDetail from "../Components/Detail/MovieDetail";
 
 const categorys = {
   nowPlaying: "nowPlaying",
@@ -571,7 +571,7 @@ function Home() {
                         }}
                       />
                       <BigTitle>{clickedMovie.title}</BigTitle>
-                      <BigOverview>{clickedMovie.overview}</BigOverview>
+                      <MovieDetail />
                     </>
                   )}
                 </BigMovie>
